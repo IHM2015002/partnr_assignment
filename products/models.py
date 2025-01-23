@@ -7,3 +7,4 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     product_name = models.CharField(max_length=100,blank=False)
     product_type = models.CharField(max_length=50)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)

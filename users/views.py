@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 import json
+from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
@@ -33,7 +35,8 @@ def login(request):
         if not user:
             return JsonResponse({"error":"please enter valid email and password"},status=400)
         
-        return JsonResponse({"data":user},status=200)
+        token,_ = Token.objects.get_or_create(user=user)
+        return JsonResponse({"token":str(token.key)},status=200)
     except Exception as e:
         return JsonResponse({"error":str(e)},status=400)
 
